@@ -6,6 +6,15 @@
   "author": "Elliana <me@mause.me>",
   "license": "MIT",
   "dependencies": {
-    "@vercel/node": "^1.11.0"
+    "@vercel/node": "^1.11.0",
+    "axios": "^0.21.1",
+    "axios-cookiejar-support": "^1.0.1",
+    "joi": "^17.4.0",
+    "tabletojson": "^2.0.6",
+    "tough-cookie": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.1",
+    "@types/tough-cookie": "^4.0.0"
   }
 }
