@@ -24,8 +24,8 @@ export async function getCookie() {
   session.defaults.jar = new CookieJar();
 
   const form_data = new URLSearchParams();
-  form_data.append("username", config.value.LAUNTEL_EMAIL);
-  form_data.append("password", config.value.LAUNTEL_PASSWORD);
+  form_data.append("username", config.LAUNTEL_EMAIL);
+  form_data.append("password", config.LAUNTEL_PASSWORD);
 
   const res = await session.post("/login", form_data, {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
