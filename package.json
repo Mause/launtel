@@ -1,0 +1,11 @@
+{
+  "name": "launtel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Mause/launtel.git",
+  "author": "Elliana <me@mause.me>",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/node": "^1.11.0"
+  }
+}
