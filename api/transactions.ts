@@ -7,7 +7,10 @@ import axiosCookieJarSupport from "axios-cookiejar-support";
 import joi from "joi";
 import _ from "lodash";
 
-const MONTHS = "January February March April May June July August October November December".split(" ");
+const MONTHS =
+  "January February March April May June July August October November December".split(
+    " "
+  );
 
 const validation = joi
   .object({
@@ -47,8 +50,8 @@ export async function getCookie() {
 class Transaction {
   public date: Date;
   public description: string;
-  public amount: number;
-  public balance: number;
+  public amount: BigInt;
+  public balance: BigInt;
 
   constructor(obj: { [key: string]: string }) {
     this.date = parseDate(obj.Date);
@@ -69,14 +72,23 @@ const thing: VercelApiHandler = async (
   )[0].map((row: Record<string, string>) => new Transaction(row));
 
   const perMonth = _.chain(transactions)
-    .filter((transaction) => transaction.amount < 0)
-    .groupBy(({ date }) => `${MONTHS[date.getUTCMonth()]} ${date.getFullYear()}`)
+    .filter((transaction) => transaction.amount < BigInt(0))
+    .groupBy(
+      ({ date }) => `${MONTHS[date.getUTCMonth()]} ${date.getFullYear()}`
+    )
     .entries()
-    .map(([key, values]) => [key, -_.sumBy(values, "amount")])
+    .map(([key, values]) => {
+      let val = -_.sumBy(values, "amount");
+
+      return [key, parseFloat(val.toString()) / 100];
+    })
     .fromPairs()
     .value();
 
-  response.json({ perMonth, transactions });
+  const res = JSON.stringify({ perMonth }, (_, obj) =>
+    obj instanceof BigInt ? obj.toString() : obj
+  );
+  response.setHeader("Content-Type", "application/json").send(res);
 };
 
 function parseDate(input: string) {
@@ -90,9 +102,8 @@ function parseDate(input: string) {
   return date;
 }
 
-function money(obj: string): number | undefined {
-  console.log(obj);
-  return obj ? parseFloat(obj.replace("$", "")) : undefined;
+function money(obj: string): BigInt | undefined {
+  return obj ? BigInt(obj.replace("$", "").replace(".", "")) : undefined;
 }
 
 export default thing;
