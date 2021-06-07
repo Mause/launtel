@@ -6,9 +6,13 @@ import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import joi from "joi";
 
-const config = joi
+const validation = joi
   .object({ LAUNTEL_EMAIL: joi.string(), LAUNTEL_PASSWORD: joi.string() })
-  .validate(process.env).value;
+  .validate(process.env);
+if (validation.error) {
+  throw validation.error;
+}
+const config = validation.value;
 
 export async function getCookie() {
   const session = Axios.create({
