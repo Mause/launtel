@@ -8,6 +8,7 @@ import joi from "joi";
 
 const validation = joi
   .object({ LAUNTEL_EMAIL: joi.string(), LAUNTEL_PASSWORD: joi.string() })
+  .options({ stripUnknown: true })
   .validate(process.env);
 if (validation.error) {
   throw validation.error;
