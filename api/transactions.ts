@@ -61,10 +61,7 @@ class Transaction {
   }
 }
 
-const thing: VercelApiHandler = async (
-  request: VercelRequest,
-  response: VercelResponse
-) => {
+export default async (request: VercelRequest, response: VercelResponse) => {
   const session = await getCookie();
 
   const transactions: Transaction[] = Tabletojson.convert(
@@ -105,5 +102,3 @@ function parseDate(input: string) {
 function money(obj: string): BigInt | undefined {
   return obj ? BigInt(obj.replace("$", "").replace(".", "")) : undefined;
 }
-
-export default thing;
