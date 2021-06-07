@@ -10,10 +10,12 @@
     "axios": "^0.21.1",
     "axios-cookiejar-support": "^1.0.1",
     "joi": "^17.4.0",
+    "lodash": "^4.17.21",
     "tabletojson": "^2.0.6",
     "tough-cookie": "^4.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.170",
     "@types/node": "^15.12.1",
     "@types/tough-cookie": "^4.0.0"
   }
