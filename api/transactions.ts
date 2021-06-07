@@ -85,8 +85,8 @@ const thing: VercelApiHandler = async (
     .fromPairs()
     .value();
 
-  const res = JSON.stringify({ perMonth }, (_, obj) =>
-    obj instanceof BigInt ? obj.toString() : obj
+  const res = JSON.stringify({ perMonth, transactions }, (_, obj) =>
+    typeof obj === 'bigint' ? obj.toString() : obj
   );
   response.setHeader("Content-Type", "application/json").send(res);
 };
