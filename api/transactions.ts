@@ -82,8 +82,9 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     .fromPairs()
     .value();
 
-  const res = JSON.stringify({ perMonth, transactions }, (_, obj) =>
-    typeof obj === "bigint" ? bigintToString(obj) : obj
+  const res = JSON.stringify(
+    { perMonth, transactions, numTransactions: transactions.length },
+    (_, obj) => (typeof obj === "bigint" ? bigintToString(obj) : obj)
   );
   response.setHeader("Content-Type", "application/json").send(res);
 };
