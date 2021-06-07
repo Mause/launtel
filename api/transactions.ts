@@ -10,7 +10,7 @@ const config = joi
   .object({ LAUNTEL_EMAIL: joi.string(), LAUNTEL_PASSWORD: joi.string() })
   .validate(process.env).value;
 
-async function getCookie() {
+export async function getCookie() {
   const session = Axios.create({
     baseURL: "https://residential.launtel.net.au",
     withCredentials: true,
