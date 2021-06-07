@@ -7,7 +7,10 @@ import axiosCookieJarSupport from "axios-cookiejar-support";
 import joi from "joi";
 
 const validation = joi
-  .object({ LAUNTEL_EMAIL: joi.string(), LAUNTEL_PASSWORD: joi.string() })
+  .object({
+    LAUNTEL_EMAIL: joi.string().email(),
+    LAUNTEL_PASSWORD: joi.string(),
+  })
   .options({ stripUnknown: true })
   .validate(process.env);
 if (validation.error) {
