@@ -5,6 +5,8 @@ import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import joi from "joi";
+import _ from "lodash";
+
 const MONTHS = "January February March April May June July August October November December".split(" ");
 
 const validation = joi
@@ -66,9 +68,15 @@ const thing: VercelApiHandler = async (
     (await session.get("/transactions")).data
   )[0].map((row: Record<string, string>) => new Transaction(row));
 
-  response.json({
-    transactions: Tabletojson.convert(transactions.data, {})[0],
-  });
+  const perMonth = _.chain(transactions)
+    .filter((transaction) => transaction.amount < 0)
+    .groupBy(({ date }) => `${MONTHS[date.getUTCMonth()]} ${date.getFullYear()}`)
+    .entries()
+    .map(([key, values]) => [key, -_.sumBy(values, "amount")])
+    .fromPairs()
+    .value();
+
+  response.json({ perMonth, transactions });
 };
 
 function parseDate(input: string) {
