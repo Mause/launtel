@@ -5,6 +5,7 @@ import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import joi from "joi";
+const MONTHS = "January February March April May June July August October November December".split(" ");
 
 const validation = joi
   .object({
@@ -41,17 +42,49 @@ export async function getCookie() {
   return session;
 }
 
+class Transaction {
+  public date: Date;
+  public description: string;
+  public amount: number;
+  public balance: number;
+
+  constructor(obj: { [key: string]: string }) {
+    this.date = parseDate(obj.Date);
+    this.description = obj.Description;
+    this.amount = money(obj.Amount)!;
+    this.balance = money(obj.Balance)!;
+  }
+}
+
 const thing: VercelApiHandler = async (
   request: VercelRequest,
   response: VercelResponse
 ) => {
   const session = await getCookie();
 
-  const transactions = await session.get("/transactions");
+  const transactions: Transaction[] = Tabletojson.convert(
+    (await session.get("/transactions")).data
+  )[0].map((row: Record<string, string>) => new Transaction(row));
 
   response.json({
     transactions: Tabletojson.convert(transactions.data, {})[0],
   });
 };
+
+function parseDate(input: string) {
+  const [day, month, year, time] = input.split(" ");
+
+  const date = new Date(0);
+  date.setFullYear(parseInt(year), MONTHS.indexOf(month), parseInt(day));
+  const [hour, minute] = time.split(":").map((i) => parseInt(i));
+  date.setHours(hour, minute);
+
+  return date;
+}
+
+function money(obj: string): number | undefined {
+  console.log(obj);
+  return obj ? parseFloat(obj.replace("$", "")) : undefined;
+}
 
 export default thing;
