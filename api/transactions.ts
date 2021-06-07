@@ -77,16 +77,20 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     .map(([key, values]) => {
       let val = -_.sumBy(values, "amount");
 
-      return [key, parseFloat(val.toString()) / 100];
+      return [key, bigintToString(val as unknown as BigInt)];
     })
     .fromPairs()
     .value();
 
   const res = JSON.stringify({ perMonth, transactions }, (_, obj) =>
-    typeof obj === 'bigint' ? obj.toString() : obj
+    typeof obj === "bigint" ? bigintToString(obj) : obj
   );
   response.setHeader("Content-Type", "application/json").send(res);
 };
+
+function bigintToString(val: BigInt): string | number {
+  return parseFloat(val.toString()) / 100;
+}
 
 function parseDate(input: string) {
   const [day, month, year, time] = input.split(" ");
