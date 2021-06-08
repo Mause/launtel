@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { Tabletojson } from "tabletojson";
-import { VercelRequest, VercelResponse, VercelApiHandler } from "@vercel/node";
+import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
