@@ -14,6 +14,8 @@ import {
 } from "@js-joda/core";
 import Joi from "joi";
 
+const ZERO = BigInt(0);
+
 type EnvSchema = {
   LAUNTEL_EMAIL: string;
   LAUNTEL_PASSWORD: string;
@@ -66,6 +68,25 @@ class Transaction {
   }
 }
 
+
+class Discount {
+  constructor(private _discount: bigint) {}
+
+  discount(amount: bigint) {
+    if (amount > this._discount) {
+      const res = amount - this._discount;
+      this._discount = ZERO;
+      return res;
+    } else if (this._discount == amount) {
+      this._discount = ZERO;
+      return ZERO;
+    } else if (amount < this._discount) {
+      this._discount -= amount;
+      return ZERO;
+    }
+  }
+}
+
 export default async (request: VercelRequest, response: VercelResponse) => {
   const session = await getCookie();
 
@@ -73,14 +94,23 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     (await session.get("/transactions")).data
   )[0].map((row: Record<string, string>) => new Transaction(row));
 
+  const discount = new Discount(BigInt(2500));
+
   const perMonth = _.chain(transactions)
     .filter((transaction) => transaction.amount < BigInt(0))
     .groupBy(({ date }) => YearMonth.from(date).toJSON())
     .entries()
+    .sortBy(0)
     .map(([key, values]) => {
       let val = -_.sumBy(values, "amount");
 
-      return [key, bigintToString(val as unknown as BigInt)];
+      return [
+        key,
+        {
+          amount: bigintToString(val as unknown as BigInt),
+          discounted: discount.discount(BigInt(val)),
+        },
+      ];
     })
     .fromPairs()
     .value();
