@@ -6,11 +6,12 @@ import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import joi from "joi";
 import _ from "lodash";
-
-const MONTHS =
-  "January February March April May June July August October November December".split(
-    " "
-  );
+import {
+  LocalDate,
+  LocalDateTime,
+  LocalTime,
+  Month,
+} from "@js-joda/core";
 
 const validation = joi
   .object({
@@ -48,7 +49,7 @@ export async function getCookie() {
 }
 
 class Transaction {
-  public date: Date;
+  public date: LocalDateTime;
   public description: string;
   public amount: BigInt;
   public balance: BigInt;
@@ -70,9 +71,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 
   const perMonth = _.chain(transactions)
     .filter((transaction) => transaction.amount < BigInt(0))
-    .groupBy(
-      ({ date }) => `${MONTHS[date.getUTCMonth()]} ${date.getFullYear()}`
-    )
+    .groupBy(({ date }) => `${date.month().name()} ${date.year()}`)
     .entries()
     .map(([key, values]) => {
       let val = -_.sumBy(values, "amount");
@@ -95,13 +94,16 @@ function bigintToString(val: BigInt): string | number {
 
 function parseDate(input: string) {
   const [day, month, year, time] = input.split(" ");
+  const [hour, minute] = time.split(":").map((i) => parseInt(i, 10));
 
-  const date = new Date(0);
-  date.setFullYear(parseInt(year), MONTHS.indexOf(month), parseInt(day));
-  const [hour, minute] = time.split(":").map((i) => parseInt(i));
-  date.setHours(hour, minute);
-
-  return date;
+  return LocalDateTime.of(
+    LocalDate.of(
+      parseInt(year, 10),
+      Month.valueOf(month.toUpperCase()),
+      parseInt(day, 10)
+    ),
+    LocalTime.of(hour, minute)
+  );
 }
 
 function money(obj: string): BigInt | undefined {
