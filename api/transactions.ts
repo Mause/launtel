@@ -11,6 +11,7 @@ import {
   LocalDateTime,
   LocalTime,
   Month,
+  YearMonth,
 } from "@js-joda/core";
 
 const validation = joi
@@ -71,7 +72,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
 
   const perMonth = _.chain(transactions)
     .filter((transaction) => transaction.amount < BigInt(0))
-    .groupBy(({ date }) => `${date.month().name()} ${date.year()}`)
+    .groupBy(({ date }) => YearMonth.from(date).toJSON())
     .entries()
     .map(([key, values]) => {
       let val = -_.sumBy(values, "amount");
