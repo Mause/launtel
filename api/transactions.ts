@@ -54,8 +54,10 @@ class Transaction {
   public description: string;
   public amount: BigInt;
   public balance: BigInt;
+  public isCCCharge: boolean;
 
   constructor(obj: { [key: string]: string }) {
+    this.isCCCharge = obj['3'] === 'Refund';
     this.date = parseDate(obj.Date);
     this.description = obj.Description;
     this.amount = money(obj.Amount)!;
