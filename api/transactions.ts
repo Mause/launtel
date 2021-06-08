@@ -4,7 +4,6 @@ import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
-import joi from "joi";
 import _ from "lodash";
 import {
   LocalDate,
@@ -13,18 +12,20 @@ import {
   Month,
   YearMonth,
 } from "@js-joda/core";
+import Joi from "joi";
 
-const validation = joi
-  .object({
-    LAUNTEL_EMAIL: joi.string().email(),
-    LAUNTEL_PASSWORD: joi.string(),
-  })
-  .options({ stripUnknown: true })
-  .validate(process.env);
-if (validation.error) {
-  throw validation.error;
+type EnvSchema = {
+  LAUNTEL_EMAIL: string;
+  LAUNTEL_PASSWORD: string;
+};
+const EnvSchema = Joi.object<EnvSchema>({
+  LAUNTEL_EMAIL: Joi.string().email(),
+  LAUNTEL_PASSWORD: Joi.string(),
+}).validate(process.env, { stripUnknown: true });
+if (EnvSchema.error) {
+  throw EnvSchema.error;
 }
-const config = validation.value;
+const config: EnvSchema = EnvSchema.value;
 
 export async function getCookie() {
   const session = Axios.create({
@@ -57,7 +58,7 @@ class Transaction {
   public isCCCharge: boolean;
 
   constructor(obj: { [key: string]: string }) {
-    this.isCCCharge = obj['3'] === 'Refund';
+    this.isCCCharge = obj["3"] === "Refund";
     this.date = parseDate(obj.Date);
     this.description = obj.Description;
     this.amount = money(obj.Amount)!;
