@@ -53,8 +53,8 @@ export async function getCookie() {
 class Transaction {
   public date: LocalDateTime;
   public description: string;
-  public amount: BigInt;
-  public balance: BigInt;
+  public amount: bigint;
+  public balance: bigint;
   public isCCCharge: boolean;
 
   constructor(obj: { [key: string]: string }) {
@@ -110,6 +110,6 @@ function parseDate(input: string) {
   );
 }
 
-function money(obj: string): BigInt | undefined {
+function money(obj: string): bigint | undefined {
   return obj ? BigInt(obj.replace("$", "").replace(".", "")) : undefined;
 }
