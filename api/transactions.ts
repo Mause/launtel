@@ -13,6 +13,7 @@ import {
   YearMonth,
 } from "@js-joda/core";
 import Joi from "joi";
+import * as cheerio from 'cheerio';
 
 const ZERO = BigInt(0);
 
@@ -87,12 +88,23 @@ class Discount {
   }
 }
 
+async function getTransactions(session: Axios.AxiosInstance, page: number) {
+let data = (await session.get("/transactions", {params: {p: page}})).data;
+
+  const transactions: Transaction[] = Tabletojson.convert(
+      data
+  )[0].map((row: Record<string, string>) => new Transaction(row));
+let html = cheerio.load(data);
+if (html('.page-link:contains("Next")').length) {
+    transactions.push(...await getTransactions(session, page + 1));
+}
+
+return transactions;
+}
 export default async (request: VercelRequest, response: VercelResponse) => {
   const session = await getCookie();
 
-  const transactions: Transaction[] = Tabletojson.convert(
-    (await session.get("/transactions")).data
-  )[0].map((row: Record<string, string>) => new Transaction(row));
+  const transactions = await getTransactions(session, 1);
 
   const discount = new Discount(BigInt(2500));
 
