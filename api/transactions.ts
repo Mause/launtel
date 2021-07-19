@@ -88,7 +88,7 @@ class Discount {
   }
 }
 
-async function getTransactions(session, page) {
+async function getTransactions(session: Axios.AxiosInstance, page: number) {
 let data = (await session.get("/transactions", {params: {p: page}})).data;
 
   const transactions: Transaction[] = Tabletojson.convert(
