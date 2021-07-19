@@ -87,12 +87,22 @@ class Discount {
   }
 }
 
+async function getTransactions(session, page) {
+let data = (await session.get("/transactions", {params: {p: page}})).data;
+
+  const transactions: Transaction[] = Tabletojson.convert(
+  )[0].map((row: Record<string, string>) => new Transaction(row));
+let html = cheerio.load(data);
+if (html('.page-link[text()="Next"]')) {
+    transactions.push(...await getTransactions(session, page + 1));
+}
+
+return transactions;
+}
 export default async (request: VercelRequest, response: VercelResponse) => {
   const session = await getCookie();
 
-  const transactions: Transaction[] = Tabletojson.convert(
-    (await session.get("/transactions")).data
-  )[0].map((row: Record<string, string>) => new Transaction(row));
+  const transactions = await getTransactions(session, 1);
 
   const discount = new Discount(BigInt(2500));
 
