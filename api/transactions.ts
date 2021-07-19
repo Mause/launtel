@@ -92,6 +92,7 @@ async function getTransactions(session, page) {
 let data = (await session.get("/transactions", {params: {p: page}})).data;
 
   const transactions: Transaction[] = Tabletojson.convert(
+      data
   )[0].map((row: Record<string, string>) => new Transaction(row));
 let html = cheerio.load(data);
 if (html('.page-link[text()="Next"]')) {
