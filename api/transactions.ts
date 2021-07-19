@@ -95,7 +95,7 @@ let data = (await session.get("/transactions", {params: {p: page}})).data;
       data
   )[0].map((row: Record<string, string>) => new Transaction(row));
 let html = cheerio.load(data);
-if (html('.page-link[text()="Next"]')) {
+if (html('.page-link:contains("Next")').length) {
     transactions.push(...await getTransactions(session, page + 1));
 }
 
