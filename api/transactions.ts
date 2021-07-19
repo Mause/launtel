@@ -13,6 +13,7 @@ import {
   YearMonth,
 } from "@js-joda/core";
 import Joi from "joi";
+import * as cheerio from 'cheerio';
 
 const ZERO = BigInt(0);
 
