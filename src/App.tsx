@@ -26,7 +26,13 @@ function App() {
     <div className="App">
       <header className="App-header">
         <ul>
-        {transaction ? Object.entries(transactions.perMonth).map(([key, value]) => <li key={key}>{key} - ${value.discounted}</li>) : "Loading..."}
+          {transaction
+            ? Object.entries(transactions.perMonth).map(([key, value]) => (
+                <li key={key}>
+                  {key} - ${value.discounted}
+                </li>
+              ))
+            : "Loading..."}
         </ul>
       </header>
     </div>
