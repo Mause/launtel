@@ -132,7 +132,8 @@ export default async (request: VercelRequest, response: VercelResponse) => {
     (_, obj) => (typeof obj === "bigint" ? bigintToString(obj) : obj),
     2
   );
-  response.setHeader("Content-Type", "application/json").send(res);
+  response.setHeader("Content-Type", "application/json");
+  response.send(res);
 };
 
 function bigintToString(val: BigInt): string | number {
