@@ -12,18 +12,24 @@ interface Transaction {
   };
 }
 
-export default async (request: VercelRequest, response: VercelResponse) => {
-  let transactions = (
-    await Axios.get<{
-      data: Transaction[];
-      links: { next: string | null; prev: string | null };
-    }>("https://api.up.com.au/api/v1/transactions", {
+async function get<T>(url: string): Promise<T> {
+  return (
+    await Axios.get<T>(url, {
       headers: { Authorization: "Bearer " + process.env.UP_TOKEN },
     })
-  ).data.data;
+  ).data;
+}
+
+interface TransactionResponse {
+  data: Transaction[];
+  links: { next: string | null; prev: string | null };
+}
+
+export default async (request: VercelRequest, response: VercelResponse) => {
+  let data = await get<TransactionResponse>("https://api.up.com.au/api/v1/transactions");
 
   response.json(
-    transactions.filter(
+    data.data.filter(
       (trans) =>
         trans.attributes.amount.valueInBaseUnits > 0 && trans.attributes.rawText
     )
