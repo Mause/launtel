@@ -26,11 +26,16 @@ interface TransactionResponse {
 }
 
 export default async (request: VercelRequest, response: VercelResponse) => {
-  let data = await get<TransactionResponse>(
-    "https://api.up.com.au/api/v1/transactions"
-  );
-  let transactions = data.data;
-  transactions.push(...(await get<TransactionResponse>(data.links.next)).data);
+  let url = "https://api.up.com.au/api/v1/transactions";
+  const transactions = [];
+  let i = 10;
+
+  while (i > 0) {
+    let res = await get<TransactionResponse>(url);
+    transactions.push(...res.data);
+    url = res.links.next;
+    i--;
+  }
 
   response.json(
     transactions.filter(
