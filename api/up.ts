@@ -26,7 +26,9 @@ interface TransactionResponse {
 }
 
 export default async (request: VercelRequest, response: VercelResponse) => {
-  let data = await get<TransactionResponse>("https://api.up.com.au/api/v1/transactions");
+  let data = await get<TransactionResponse>(
+    "https://api.up.com.au/api/v1/transactions"
+  );
 
   response.json(
     data.data.filter(
