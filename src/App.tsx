@@ -25,16 +25,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <ul>
-          {transactions
-            ? Object.entries(transactions.perMonth).map(([key, value]) => (
-                <li key={key}>
-                  {key} - ${value.discounted}
-                </li>
-              ))
-            : "Loading..."}
-        </ul>
+        Charge per month
       </header>
+      <ul>
+        {transactions
+          ? Object.entries(transactions.perMonth).map(([key, value]) => (
+              <li key={key}>
+                {key} - ${value.discounted}
+              </li>
+            ))
+          : "Loading..."}
+      </ul>
     </div>
   );
 }
