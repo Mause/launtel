@@ -24,9 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        Charge per month
-      </header>
+      <header className="App-header">Charge per month</header>
       <ul>
         {transactions
           ? Object.entries(transactions.perMonth).map(([key, value]) => (
