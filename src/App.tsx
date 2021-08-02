@@ -1,23 +1,24 @@
 import React from "react";
+import {useEffect, useState} from 'react';
 import logo from "./logo.svg";
 import "./App.css";
 
+interface TransactionsResponse {
+  perMonth: Record<string, {
+    discounted: number;
+  }>;
+}
+
 function App() {
+  const [transactions, setTransaction] = useState<TransactionsResponse | null>();
+  useEffect(() => {
+    fetch("/api/transactions").then(res => res.json()).then(setTransactions);
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {transactions?.perMonth}
       </header>
     </div>
   );
