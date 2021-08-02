@@ -19,12 +19,14 @@ function App() {
       .then((res) => res.json())
       .then(setTransactions);
   }, []);
-  
+
   console.log(transactions);
 
   return (
     <div className="App">
-      <header className="App-header">{transactions?.perMonth || "Loading..."}</header>
+      <header className="App-header">
+        {transactions?.perMonth || "Loading..."}
+      </header>
     </div>
   );
 }
