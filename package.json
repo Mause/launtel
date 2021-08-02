@@ -17,7 +17,7 @@
     "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.170",
+    "@types/lodash": "^4.14.171",
     "@types/node": "^15.12.1",
     "@types/tough-cookie": "^4.0.0",
     "dotenv": "^10.0.0"
