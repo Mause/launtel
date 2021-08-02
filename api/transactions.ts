@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { AxiosInstance } from "axios";
 import { Tabletojson } from "tabletojson";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CookieJar } from "tough-cookie";
@@ -87,7 +88,7 @@ class Discount {
   }
 }
 
-async function getTransactions(session: Axios.AxiosInstance, page: number) {
+async function getTransactions(session: AxiosInstance, page: number) {
   let data = (await session.get("/transactions", { params: { p: page } })).data;
 
   const transactions: Transaction[] = Tabletojson.convert(data)[0].map(
