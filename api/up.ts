@@ -29,9 +29,11 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   let data = await get<TransactionResponse>(
     "https://api.up.com.au/api/v1/transactions"
   );
+  let transactions = data.data;
+  transactions.push(...(await get<TransactionResponse>(data.links.next)).data);
 
   response.json(
-    data.data.filter(
+    transactions.filter(
       (trans) =>
         trans.attributes.amount.valueInBaseUnits > 0 && trans.attributes.rawText
     )
