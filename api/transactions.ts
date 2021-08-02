@@ -13,7 +13,7 @@ import {
   YearMonth,
 } from "@js-joda/core";
 import Joi from "joi";
-import * as cheerio from 'cheerio';
+import * as cheerio from "cheerio";
 
 const ZERO = BigInt(0);
 
@@ -69,7 +69,6 @@ class Transaction {
   }
 }
 
-
 class Discount {
   constructor(private _discount: bigint) {}
 
@@ -89,17 +88,17 @@ class Discount {
 }
 
 async function getTransactions(session: Axios.AxiosInstance, page: number) {
-let data = (await session.get("/transactions", {params: {p: page}})).data;
+  let data = (await session.get("/transactions", { params: { p: page } })).data;
 
-  const transactions: Transaction[] = Tabletojson.convert(
-      data
-  )[0].map((row: Record<string, string>) => new Transaction(row));
-let html = cheerio.load(data);
-if (html('.page-link:contains("Next")').length) {
-    transactions.push(...await getTransactions(session, page + 1));
-}
+  const transactions: Transaction[] = Tabletojson.convert(data)[0].map(
+    (row: Record<string, string>) => new Transaction(row)
+  );
+  let html = cheerio.load(data);
+  if (html('.page-link:contains("Next")').length) {
+    transactions.push(...(await getTransactions(session, page + 1)));
+  }
 
-return transactions;
+  return transactions;
 }
 export default async (request: VercelRequest, response: VercelResponse) => {
   const session = await getCookie();
