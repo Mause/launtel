@@ -33,7 +33,7 @@ export default async (request: VercelRequest, response: VercelResponse) => {
   while (i > 0) {
     let res = await get<TransactionResponse>(url);
     transactions.push(...res.data);
-    url = res.links.next;
+    url = res.links.next!;
     i--;
   }
 
