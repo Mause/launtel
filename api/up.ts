@@ -7,4 +7,4 @@ export default async (request: VercelRequest, response: VercelResponse) => {
       headers: { Authorization: "Bearer " + process.env.UP_TOKEN },
     })
   );
-}
+};
