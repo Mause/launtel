@@ -13,7 +13,7 @@ interface TransactionsResponse {
 }
 
 function App() {
-  const [transactions, setTransaction] =
+  const [transactions, setTransactions] =
     useState<TransactionsResponse | null>();
   useEffect(() => {
     fetch("/api/transactions")
