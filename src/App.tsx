@@ -17,7 +17,7 @@ interface Amount {
 }
 
 function render(amount: Amount) {
-  return `${amount.currencyCode}$$${amount.value}`;
+  return `${amount.currencyCode}$${amount.value}`;
 }
 
 interface UpTransaction {
