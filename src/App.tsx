@@ -11,6 +11,15 @@ interface TransactionsResponse {
   >;
 }
 
+interface UpTransaction {
+  id: string;
+  attributes: {
+    amount: { value: string };
+    description: string;
+    message: string;
+  };
+}
+
 function useGet<T>(url: string): T | undefined {
   const [data, setData] = useState<T>();
   useEffect(() => {
@@ -23,6 +32,7 @@ function useGet<T>(url: string): T | undefined {
 
 function App() {
   const transactions = useGet<TransactionsResponse>("/api/transactions");
+  const ups = useGet<UpTransaction[]>("/api/up");
 
   console.log(transactions);
 
@@ -34,6 +44,16 @@ function App() {
           ? Object.entries(transactions.perMonth).map(([key, value]) => (
               <li key={key}>
                 {key} - ${value.discounted}
+              </li>
+            ))
+          : "Loading..."}
+      </ul>
+      <ul>
+        {ups
+          ? ups.map((up) => (
+              <li key={up.id}>
+                {up.attributes.description} -&gt; {up.attributes.message} -&gt;{" "}
+                {up.attributes.amount.value}
               </li>
             ))
           : "Loading..."}
