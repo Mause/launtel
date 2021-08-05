@@ -52,7 +52,8 @@ function App() {
         {ups
           ? ups.map((up) => (
               <li key={up.id}>
-                {up.attributes.description} -&gt; {up.attributes.message} -&gt; {up.attributes.amount.value}
+                {up.attributes.description} -&gt; {up.attributes.message} -&gt;{" "}
+                {up.attributes.amount.value}
               </li>
             ))
           : "Loading..."}
