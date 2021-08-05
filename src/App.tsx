@@ -22,7 +22,7 @@ function get<T>(url: string): T | null {
 }
 
 function App() {
-  const transactions = get("/api/transactions");
+  const transactions = get<TransactionsResponse>("/api/transactions");
 
   console.log(transactions);
 
