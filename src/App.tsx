@@ -11,7 +11,7 @@ interface TransactionsResponse {
   >;
 }
 
-function get<T>(url: string) -> T | null {
+function get<T>(url: string): T | null {
   const [data, setData] = useState<T | null>();
   useEffect(() => {
     fetch(url)
