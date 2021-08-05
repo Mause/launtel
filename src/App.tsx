@@ -14,9 +14,9 @@ interface TransactionsResponse {
 interface UpTransaction {
   id: string;
   attributes: {
-    amount: {value:string};
+    amount: { value: string };
     rawText: string;
-  }
+  };
 }
 
 function useGet<T>(url: string): T | undefined {
@@ -48,7 +48,13 @@ function App() {
           : "Loading..."}
       </ul>
       <ul>
-        {ups ? ups.map(up => <li key={up.id}>{up.attributes.rawText} -&gt; {up.attributes.amount.value}</li>) : 'Loading...'}
+        {ups
+          ? ups.map((up) => (
+              <li key={up.id}>
+                {up.attributes.rawText} -&gt; {up.attributes.amount.value}
+              </li>
+            ))
+          : "Loading..."}
       </ul>
     </div>
   );
