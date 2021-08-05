@@ -11,14 +11,18 @@ interface TransactionsResponse {
   >;
 }
 
-function App() {
-  const [transactions, setTransactions] =
-    useState<TransactionsResponse | null>();
+function useGet<T>(url: string): T | undefined {
+  const [data, setData] = useState<T>();
   useEffect(() => {
-    fetch("/api/transactions")
+    fetch(url)
       .then((res) => res.json())
-      .then(setTransactions);
-  }, []);
+      .then(setData);
+  }, [url]);
+  return data;
+}
+
+function App() {
+  const transactions = useGet<TransactionsResponse>("/api/transactions");
 
   console.log(transactions);
 
