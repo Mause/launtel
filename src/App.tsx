@@ -11,6 +11,14 @@ interface TransactionsResponse {
   >;
 }
 
+interface UpTransaction {
+  id: string;
+  attributes: {
+    amount: {value:string};
+    rawText: string;
+  }
+}
+
 function useGet<T>(url: string): T | undefined {
   const [data, setData] = useState<T>();
   useEffect(() => {
@@ -23,6 +31,7 @@ function useGet<T>(url: string): T | undefined {
 
 function App() {
   const transactions = useGet<TransactionsResponse>("/api/transactions");
+  const ups = useGet<UpTransaction[]>("/api/up");
 
   console.log(transactions);
 
@@ -38,6 +47,8 @@ function App() {
             ))
           : "Loading..."}
       </ul>
+      <ul>
+        {ups ? ups.map(up => <li key={up.id}>{up.attributes.rawText} -> {up.attributes.amount.value}</li>)}
     </div>
   );
 }
