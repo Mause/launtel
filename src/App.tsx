@@ -11,7 +11,7 @@ interface TransactionsResponse {
   >;
 }
 
-function get<T>(url: string): T | undefined {
+function useGet<T>(url: string): T | undefined {
   const [data, setData] = useState<T>();
   useEffect(() => {
     fetch(url)
@@ -22,7 +22,7 @@ function get<T>(url: string): T | undefined {
 }
 
 function App() {
-  const transactions = get<TransactionsResponse>("/api/transactions");
+  const transactions = useGet<TransactionsResponse>("/api/transactions");
 
   console.log(transactions);
 
