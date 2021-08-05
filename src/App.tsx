@@ -48,7 +48,8 @@ function App() {
           : "Loading..."}
       </ul>
       <ul>
-        {ups ? ups.map(up => <li key={up.id}>{up.attributes.rawText} -> {up.attributes.amount.value}</li>)}
+        {ups ? ups.map(up => <li key={up.id}>{up.attributes.rawText} -> {up.attributes.amount.value}</li>) : 'Loading...'}
+      </ul>
     </div>
   );
 }
