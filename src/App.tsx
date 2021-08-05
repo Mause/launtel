@@ -11,8 +11,8 @@ interface TransactionsResponse {
   >;
 }
 
-function get<T>(url: string): T | null {
-  const [data, setData] = useState<T | null>();
+function get<T>(url: string): T | undefined {
+  const [data, setData] = useState<T>();
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
