@@ -15,7 +15,8 @@ interface UpTransaction {
   id: string;
   attributes: {
     amount: { value: string };
-    rawText: string;
+    description: string;
+    message: string;
   };
 }
 
@@ -51,7 +52,7 @@ function App() {
         {ups
           ? ups.map((up) => (
               <li key={up.id}>
-                {up.attributes.rawText} -&gt; {up.attributes.amount.value}
+                {up.attributes.description} -&gt; {up.attributes.message} -&gt; {up.attributes.amount.value}
               </li>
             ))
           : "Loading..."}
