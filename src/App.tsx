@@ -18,7 +18,7 @@ function get<T>(url: string): T | null {
       .then((res) => res.json())
       .then(setData);
   }, [url]);
-  return transctions;
+  return data;
 }
 
 function App() {
