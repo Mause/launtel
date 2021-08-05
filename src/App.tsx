@@ -11,10 +11,19 @@ interface TransactionsResponse {
   >;
 }
 
+interface Amount {
+  value: string;
+  currencyCode: string;
+}
+
+function render(amount: Amount) {
+  return `${amount.currencyCode}$$${amount.value}`;
+}
+
 interface UpTransaction {
   id: string;
   attributes: {
-    amount: { value: string };
+    amount: Amount;
     description: string;
     message: string;
   };
@@ -53,7 +62,7 @@ function App() {
           ? ups.map((up) => (
               <li key={up.id}>
                 {up.attributes.description} -&gt; {up.attributes.message} -&gt;{" "}
-                {up.attributes.amount.value}
+                {render(up.attributes.amount)}
               </li>
             ))
           : "Loading..."}
