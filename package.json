@@ -5,6 +5,9 @@
   "author": "Elliana <me@mause.me>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "@js-joda/core": "^3.2.0",
     "@vercel/node": "^1.12.0",
