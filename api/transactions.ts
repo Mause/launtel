@@ -13,23 +13,11 @@ import {
   Month,
   YearMonth,
 } from "@js-joda/core";
-import Joi from "joi";
 import * as cheerio from "cheerio";
+import authenticate from "../support/auth";
+import config from "../support/config";
 
 const ZERO = BigInt(0);
-
-type EnvSchema = {
-  LAUNTEL_EMAIL: string;
-  LAUNTEL_PASSWORD: string;
-};
-const EnvSchema = Joi.object<EnvSchema>({
-  LAUNTEL_EMAIL: Joi.string().email(),
-  LAUNTEL_PASSWORD: Joi.string(),
-}).validate(process.env, { stripUnknown: true });
-if (EnvSchema.error) {
-  throw EnvSchema.error;
-}
-const config: EnvSchema = EnvSchema.value;
 
 export async function getCookie() {
   const session = Axios.create({
@@ -101,40 +89,42 @@ async function getTransactions(session: AxiosInstance, page: number) {
 
   return transactions;
 }
-export default async (request: VercelRequest, response: VercelResponse) => {
-  const session = await getCookie();
+export default authenticate(
+  async (request: VercelRequest, response: VercelResponse) => {
+    const session = await getCookie();
 
-  const transactions = await getTransactions(session, 1);
+    const transactions = await getTransactions(session, 1);
 
-  const discount = new Discount(BigInt(2500));
+    const discount = new Discount(BigInt(2500));
 
-  const perMonth = _.chain(transactions)
-    .filter((transaction) => transaction.amount < BigInt(0))
-    .groupBy(({ date }) => YearMonth.from(date).toJSON())
-    .entries()
-    .sortBy(0)
-    .map(([key, values]) => {
-      let val = -_.sumBy(values, "amount");
+    const perMonth = _.chain(transactions)
+      .filter((transaction) => transaction.amount < BigInt(0))
+      .groupBy(({ date }) => YearMonth.from(date).toJSON())
+      .entries()
+      .sortBy(0)
+      .map(([key, values]) => {
+        let val = -_.sumBy(values, "amount");
 
-      return [
-        key,
-        {
-          amount: bigintToString(val as unknown as BigInt),
-          discounted: discount.discount(BigInt(val)),
-        },
-      ];
-    })
-    .fromPairs()
-    .value();
+        return [
+          key,
+          {
+            amount: bigintToString(val as unknown as BigInt),
+            discounted: discount.discount(BigInt(val)),
+          },
+        ];
+      })
+      .fromPairs()
+      .value();
 
-  const res = JSON.stringify(
-    { perMonth, transactions, numTransactions: transactions.length },
-    (_, obj) => (typeof obj === "bigint" ? bigintToString(obj) : obj),
-    2
-  );
-  response.setHeader("Content-Type", "application/json");
-  response.send(res);
-};
+    const res = JSON.stringify(
+      { perMonth, transactions, numTransactions: transactions.length },
+      (_, obj) => (typeof obj === "bigint" ? bigintToString(obj) : obj),
+      2
+    );
+    response.setHeader("Content-Type", "application/json");
+    response.send(res);
+  }
+);
 
 function bigintToString(val: BigInt): string | number {
   return parseFloat(val.toString()) / 100;
