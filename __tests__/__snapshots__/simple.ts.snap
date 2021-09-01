@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should return the expected response 1`] = `
+Array [
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+  Object {
+    "attributes": Object {
+      "amount": Object {
+        "valueInBaseUnits": 1500,
+      },
+      "rawText": "Internet bill",
+    },
+  },
+]
+`;

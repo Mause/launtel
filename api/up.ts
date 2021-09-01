@@ -13,12 +13,12 @@ interface Transaction {
   };
 }
 
+export const axios = Axios.create({
+  headers: { Authorization: "Bearer " + process.env.UP_TOKEN },
+});
+
 async function get<T>(url: string): Promise<T> {
-  return (
-    await Axios.get<T>(url, {
-      headers: { Authorization: "Bearer " + process.env.UP_TOKEN },
-    })
-  ).data;
+  return (await axios.get<T>(url)).data;
 }
 
 interface TransactionResponse {
@@ -33,12 +33,14 @@ export default authenticate(
     let i = 10;
 
     while (i > 0) {
+      console.log(i);
       let res = await get<TransactionResponse>(url);
       transactions.push(...res.data);
       url = res.links.next!;
       i--;
     }
 
+    response.status(200);
     response.json(
       transactions.filter(
         (trans) =>
