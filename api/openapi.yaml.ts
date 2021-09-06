@@ -16,11 +16,23 @@ export default async (_request: VercelRequest, response: VercelResponse) => {
       if (!value) {
         value = new YAMLMap();
         value.set(
+          "operationId",
+          "get" + name[0].toUpperCase() + name.substring(1)
+        );
+        value.set(
           "responses",
           parseDocument(
             JSON.stringify({
               default: {
-                content: { "application/json": { schema: { $ref: "ref" } } },
+                description: "Ok",
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: { id: { type: "string" } },
+                    },
+                  },
+                },
               },
             })
           )
