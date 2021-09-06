@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info:
+  name: launtel
+  version: 0.0.1
+  
+components:
+  schemas:
+    UpResponse:
+      type: array
+      items:
+        type: object:
+        properties:
+          id: string
+          attributes: {
+            description: string
+            message: string
+            createdAt: string
+            amount: { value: string }
+          }
+paths:
+  /api/up:
+    get:
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/UpResponse'
