@@ -9,7 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@js-joda/core": "^3.2.0",
+    "@js-joda/core": "^4.0.0",
     "@vercel/node": "^1.12.0",
     "axios": "^0.21.1",
     "axios-cookiejar-support": "^1.0.1",
@@ -17,11 +17,10 @@
     "lodash": "^4.17.21",
     "tabletojson": "^2.0.7",
     "tough-cookie": "^4.0.0",
-    "typescript": "^4.3.5",
     "vercel-jwt-auth": "^1.1.5"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.0",
+    "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.172",
     "@types/moxios": "^0.4.12",
     "@types/node": "^15.12.1",
