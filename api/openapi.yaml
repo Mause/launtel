@@ -10,13 +10,24 @@ components:
       items:
         type: object:
         properties:
-          id: string
-          attributes: {
-            description: string
-            message: string
-            createdAt: string
-            amount: { value: string }
-          }
+          id:
+            type: string
+          attributes:
+            type: object
+            properties:
+              description:
+                type: string
+              message:
+                type: string
+              createdAt:
+                type: string
+              amount:
+                $ref: '#/components/schemas/Amount'
+    Amount:
+      type: object
+      properties:
+        value:
+          type: string
 paths:
   /api/up:
     get:
