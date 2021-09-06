@@ -4,9 +4,13 @@ import axios from "axios";
 import routeUnderTest, { axios as axiosUp } from "../api/up";
 import { Server } from "net";
 import moxios from "moxios";
+import { sign } from "jsonwebtoken";
 
 let server: Server;
 let url: string;
+
+const SECRET = "SECRET";
+process.env.JWT_SECRET = SECRET;
 
 beforeAll(async () => {
   server = createServer(routeUnderTest);
@@ -36,7 +40,11 @@ it("should return the expected response", async () => {
       },
     },
   });
-  const response = await axios.get(url);
+  const response = await axios.get(url, {
+    headers: {
+      Authorization: "Bearer " + jwt.sign({aud: 'authenticated'}, SECRET)
+    }
+  });
   expect(response.status).toBe(200);
   expect(response.data).toMatchSnapshot();
 });
