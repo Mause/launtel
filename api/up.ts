@@ -37,6 +37,7 @@ export default authenticate(
       let res = await get<TransactionResponse>(url);
       transactions.push(...res.data);
       url = res.links.next!;
+      console.log(url);
       i--;
     }
 
