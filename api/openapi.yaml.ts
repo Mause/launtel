@@ -1,8 +1,7 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { readFileSync } from "fs";
 
-export default async (request: VercelRequest, response: VercelResponse) => {
+export default async (request: VercelRequest, response: VercelResponse) => 
   response
     .status(200)
-    .json(readFileSync(__dirname + "/openapi.yaml").toString());
-};
+    .send(readFileSync(__dirname + "/openapi.yaml").toString());
