@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  name: launtel
+  title: launtel
   version: 0.0.1
 
 components:
@@ -33,6 +33,7 @@ paths:
     get:
       responses:
         default:
+          description: Ok
           content:
             application/json:
               schema:
