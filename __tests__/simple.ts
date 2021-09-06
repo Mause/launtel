@@ -42,8 +42,8 @@ it("should return the expected response", async () => {
   });
   const response = await axios.get(url, {
     headers: {
-      Authorization: "Bearer " + jwt.sign({aud: 'authenticated'}, SECRET)
-    }
+      Authorization: "Bearer " + jwt.sign({ aud: "authenticated" }, SECRET),
+    },
   });
   expect(response.status).toBe(200);
   expect(response.data).toMatchSnapshot();
