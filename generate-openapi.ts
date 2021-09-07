@@ -26,20 +26,18 @@ async function generateOpenapi() {
         );
         get.set(
           "responses",
-          parseDocument(
-            JSON.stringify({
-              default: {
-                description: "Ok",
-                content: {
-                  "application/json": {
-                    schema: {
-                      $ref: "#/components/schemas/DummyResponse",
-                    },
+          doc.createNode({
+            default: {
+              description: "Ok",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/DummyResponse",
                   },
                 },
               },
-            })
-          )
+            },
+          })
         );
       }
       paths.set(path, value);
@@ -62,13 +60,11 @@ async function generateOpenapi() {
 
   doc.setIn(
     ["components", "schemas", "DummyResponse"],
-    parseDocument(
-      JSON.stringify({
-        type: "object",
-        required: ["id"],
-        properties: { id: { type: "string" } },
-      })
-    )
+    doc.createNode({
+      type: "object",
+      required: ["id"],
+      properties: { id: { type: "string" } },
+    })
   );
 
   console.log(doc.toJSON());
