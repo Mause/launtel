@@ -17,10 +17,10 @@ export default authenticate(
 
     const session = await getSession();
 
-    return (
+    response.json(new UsageResponse(
       await session.get(
         `/day-usage?date=${date.getFullYear()}-${date.getUTCMonth()}-${date.getDay()}`
       )
-    ).data;
+    ).data));
   }
 );
