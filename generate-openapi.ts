@@ -17,11 +17,13 @@ async function generateOpenapi() {
       let value = paths.get(path) as YAMLMap<string, {}>;
       if (!value) {
         value = new YAMLMap();
-        value.set(
+        const get = new YAMLMap();
+        value.set("get", get);
+        get.setIn(
           "operationId",
           "get" + name[0].toUpperCase() + name.substring(1)
         );
-        value.set(
+        get.set(
           "responses",
           parseDocument(
             JSON.stringify({
