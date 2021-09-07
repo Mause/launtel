@@ -4,7 +4,10 @@ import authenticate from "../support/auth";
 import { IsNotEmpty } from "class-validator";
 
 class UsageResponse {
-  constructor(@IsNotEmpty() private usage: Record<string, string>) {}
+  @IsNotEmpty() private usage: Record<string, string>;
+  constructor(usage: Record<string, string>) {
+    this.usage = usage;
+  }
 }
 
 export default authenticate(
