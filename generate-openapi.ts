@@ -15,7 +15,11 @@ async function generateOpenapi() {
     const name = filename.substr(0, filename.lastIndexOf("."));
     if (name != "openapi.yaml" && filename.endsWith(".ts")) {
       const path = `/api/${name}`;
-      require("." + path); // register models
+      try {
+        require("." + path); // register models
+      } catch (e) {
+        console.log(e);
+      }
       let value = paths.get(path) as YAMLMap<string, {}>;
       if (!value) {
         value = new YAMLMap();
