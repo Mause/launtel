@@ -5,7 +5,6 @@
   "author": "Elliana <me@mause.me>",
   "license": "MIT",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "tsc && ts-node generate-openapi.ts",
     "test": "jest"
