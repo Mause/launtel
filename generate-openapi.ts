@@ -40,6 +40,8 @@ async function generateOpenapi() {
       paths.set(path, value);
     }
   }
+  
+  console.log(doc.toJSON());
 
   await writeFile(dir + "/openapi.yaml", doc.toString());
 }
