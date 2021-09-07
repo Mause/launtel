@@ -1,5 +1,7 @@
 on: push
 
+name: Typecheck
+
 jobs:
   typecheck:
     runs-on: ubuntu-latest
