@@ -60,6 +60,6 @@ export default authenticate(
             trans.attributes.rawText
         )
       )
-    );
+    ));
   }
 );
