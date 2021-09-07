@@ -1,13 +1,16 @@
 import { readFile, readdir, writeFile } from "fs/promises";
+import { resolve } from "path";
 import { parseDocument, YAMLMap } from "yaml";
 
 const dir = "api";
 
 async function generateOpenapi() {
-  const doc = parseDocument((await readFile(dir + "/openapi.yaml")).toString());
+  const filename = resolve(dir + "/openapi.yaml");
+  console.log(filename);
+  const doc = parseDocument((await readFile(filename)).toString());
 
   const paths = doc.get("paths") as YAMLMap<string, {}>;
-  for (const filename of await readdir(dir)) {
+  for (const filename of await readdir(resolve(dir))) {
     const name = filename.substr(0, filename.lastIndexOf("."));
     if (name != "openapi.yaml" && filename.endsWith(".ts")) {
       const path = `/api/${name}`;
@@ -43,7 +46,7 @@ async function generateOpenapi() {
 
   console.log(doc.toJSON());
 
-  await writeFile(dir + "/openapi.yaml", doc.toString());
+  await writeFile(filename, doc.toString());
 }
 
 generateOpenapi().then(console.log.bind(console), console.error.bind(console));
