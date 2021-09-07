@@ -20,7 +20,7 @@ async function generateOpenapi() {
         value = new YAMLMap();
         const get = new YAMLMap();
         value.set("get", get);
-        get.setIn(
+        get.set(
           "operationId",
           "get" + name[0].toUpperCase() + name.substring(1)
         );
