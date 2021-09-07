@@ -12,4 +12,5 @@ jobs:
       - run: yarn --frozen
       - name: Typescript compiler
         uses: iCrawl/action-tsc@v1
+      - run: yarn build
       - run: yarn test
