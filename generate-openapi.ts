@@ -1,7 +1,7 @@
 import { readFile, readdir, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { parseDocument, YAMLMap } from "yaml";
-import { validationMetadatasToSchemas } from 'class-validator-jsonschema'
+import { validationMetadatasToSchemas } from "class-validator-jsonschema";
 
 const dir = "api";
 
@@ -43,9 +43,14 @@ async function generateOpenapi() {
       paths.set(path, value);
     }
   }
-  
-  const schemas = doc.getIn(["components", "schemas"]) as YAMLMap<string, unknown>;
-  schemas.update(validationMetadatasToSchemas({refPointerPrefix: '#/components/schemas/'}));
+
+  const schemas = doc.getIn(["components", "schemas"]) as YAMLMap<
+    string,
+    unknown
+  >;
+  schemas.update(
+    validationMetadatasToSchemas({ refPointerPrefix: "#/components/schemas/" })
+  );
 
   doc.setIn(
     ["components", "schemas", "DummyResponse"],
