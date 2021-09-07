@@ -5,6 +5,7 @@
   "author": "Elliana <me@mause.me>",
   "license": "MIT",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc && node --loader ts-node/esm generate-openapi.ts",
     "test": "jest"
