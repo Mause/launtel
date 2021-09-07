@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import authenticate from "../support/auth";
-import { IsNotEmpty, Validate } from 'class-validator';
+import { IsNotEmpty, Validate } from "class-validator";
 
 @Validate()
 class UpTransaction {}
