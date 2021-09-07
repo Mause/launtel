@@ -51,7 +51,13 @@ async function generateOpenapi() {
     unknown
   >;
   schemas.items.push(
-    ...(YAML.createNode(validationMetadatasToSchemas({ refPointerPrefix: "#/components/schemas/" })) as YAMLMap<string, unknown>).items
+    ...(
+      YAML.createNode(
+        validationMetadatasToSchemas({
+          refPointerPrefix: "#/components/schemas/",
+        })
+      ) as YAMLMap<string, unknown>
+    ).items
   );
 
   doc.setIn(
