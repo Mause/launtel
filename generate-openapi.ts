@@ -49,18 +49,13 @@ async function generateOpenapi() {
     }
   }
 
-  const schemas = doc.getIn(["components", "schemas"]) as YAMLMap<
-    string,
-    unknown
-  >;
-  schemas.items.push(
-    ...(
-      doc.createNode(
-        validationMetadatasToSchemas({
-          refPointerPrefix: "#/components/schemas/",
-        })
-      ) as YAMLMap<string, unknown>
-    ).items
+  doc.setIn(
+    ["components", "schemas"],
+    doc.createNode(
+      validationMetadatasToSchemas({
+        refPointerPrefix: "#/components/schemas/",
+      })
+    )
   );
 
   doc.setIn(
@@ -74,7 +69,6 @@ async function generateOpenapi() {
 
   console.log(JSON.stringify(doc, undefined, 2));
 
-  await writeFile(filename, doc.toString());
   await writeFile("openapi.yaml", doc.toString());
 }
 

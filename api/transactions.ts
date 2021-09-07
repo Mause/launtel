@@ -16,6 +16,7 @@ import {
 import * as cheerio from "cheerio";
 import authenticate from "../support/auth";
 import config from "../support/config";
+import { IsNotEmpty, IsNotEmptyObject, IsObject } from "class-validator";
 
 const ZERO = BigInt(0);
 
@@ -42,7 +43,7 @@ export async function getCookie() {
   return session;
 }
 
-class Transaction {
+class LauntelTransaction {
   public date: LocalDateTime;
   public description: string;
   public amount: bigint;
@@ -76,11 +77,20 @@ class Discount {
   }
 }
 
+class LauntelTransactionResponse {
+  @IsNotEmpty()
+  public perMonth: Record<string, { discounted: string }>
+  constructor(perMonth: Record<string, { discounted: string }>) {
+    this.perMonth = perMonth;
+  }
+}
+export const responseShape = LauntelTransactionResponse.name;
+
 async function getTransactions(session: AxiosInstance, page: number) {
   let data = (await session.get("/transactions", { params: { p: page } })).data;
 
-  const transactions: Transaction[] = Tabletojson.convert(data)[0].map(
-    (row: Record<string, string>) => new Transaction(row)
+  const transactions: LauntelTransaction[] = Tabletojson.convert(data)[0].map(
+    (row: Record<string, string>) => new LauntelTransaction(row)
   );
   let html = cheerio.load(data);
   if (html('.page-link:contains("Next")').length) {

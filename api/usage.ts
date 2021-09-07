@@ -1,11 +1,14 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { getCookie as getSession } from "./transactions";
 import authenticate from "../support/auth";
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmptyObject } from "class-validator";
+
+type Usage = { [key: string]: string };
 
 class UsageResponse {
-  @IsNotEmpty() private usage: Record<string, string>;
-  constructor(usage: Record<string, string>) {
+  @IsNotEmptyObject()
+  public usage: Usage;
+  constructor(usage: Usage) {
     this.usage = usage;
   }
 }
@@ -17,10 +20,14 @@ export default authenticate(
 
     const session = await getSession();
 
-    response.json(new UsageResponse(
-      await session.get(
-        `/day-usage?date=${date.getFullYear()}-${date.getUTCMonth()}-${date.getDay()}`
+    response.json(
+      new UsageResponse(
+        (
+          await session.get(
+            `/day-usage?date=${date.getFullYear()}-${date.getUTCMonth()}-${date.getDay()}`
+          )
+        ).data
       )
-    ).data));
+    );
   }
 );
