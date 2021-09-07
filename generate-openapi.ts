@@ -9,8 +9,8 @@ async function generateOpenapi() {
   const filename = resolve(dir + "/openapi.yaml");
   console.log(filename);
   const doc = parseDocument((await readFile(filename)).toString());
-  
-  process.env.JWT_SECRET = 'SECRET'; // play pretend
+
+  process.env.JWT_SECRET = "SECRET"; // play pretend
 
   const paths = doc.get("paths") as YAMLMap<string, {}>;
   for (const filename of await readdir(resolve(dir))) {
