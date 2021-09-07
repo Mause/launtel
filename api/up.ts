@@ -10,8 +10,8 @@ class UpTransaction {
     description: string;
     message: string;
     createdAt: string;
-    amount: Amount
-  }
+    amount: Amount;
+  };
 }
 
 class UpTransactionResponse {
@@ -30,7 +30,7 @@ interface Transaction {
     description: string;
     message: string;
     createdAt: string;
-    amount: Amount
+    amount: Amount;
   };
 }
 

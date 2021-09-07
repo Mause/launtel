@@ -79,7 +79,7 @@ class Discount {
 
 class LauntelTransactionResponse {
   @IsNotEmpty()
-  public perMonth: Record<string, { discounted: string }>
+  public perMonth: Record<string, { discounted: string }>;
   constructor(perMonth: Record<string, { discounted: string }>) {
     this.perMonth = perMonth;
   }
