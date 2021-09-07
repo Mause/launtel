@@ -3,10 +3,17 @@ info:
   title: launtel
   version: 0.0.1
 
+security:
+  - AuthHeader: []
+
 servers:
   - url: "https://launtel.vercel.app"
 
 components:
+  securitySchemes:
+    AuthHeader:
+      scheme: header
+      type: http
   schemas:
     UpResponse:
       type: array
