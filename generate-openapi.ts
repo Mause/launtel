@@ -47,6 +47,7 @@ async function generateOpenapi() {
   console.log(doc.toJSON());
 
   await writeFile(filename, doc.toString());
+  await writeFile("openapi.yaml", doc.toString());
 }
 
 generateOpenapi().then(console.log.bind(console), console.error.bind(console));
