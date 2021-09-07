@@ -50,7 +50,7 @@ async function generateOpenapi() {
   >;
   schemas.items.push(
     ...(
-      YAML.createNode(
+      doc.createNode(
         validationMetadatasToSchemas({
           refPointerPrefix: "#/components/schemas/",
         })
