@@ -74,4 +74,7 @@ async function generateOpenapi() {
   await writeFile("openapi.yaml", doc.toString());
 }
 
-generateOpenapi().catch(error => {console.error(error); process.exit(-1);})
+generateOpenapi().catch((error) => {
+  console.error(error);
+  process.exit(-1);
+});
