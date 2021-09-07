@@ -7,7 +7,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc && ts-node generate-openapi.ts",
+    "build": "tsc && ts-node generate-openapi.mts",
     "test": "jest"
   },
   "dependencies": {
