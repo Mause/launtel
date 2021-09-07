@@ -1,6 +1,6 @@
 import { readFile, readdir, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { parseDocument, YAMLMap, createNode } from "yaml";
+import { parseDocument, YAMLMap } from "yaml";
 
 const dir = "api";
 
@@ -25,7 +25,7 @@ async function generateOpenapi() {
         );
         get.set(
           "responses",
-          createNode({
+          doc.createNode({
             default: {
               description: "Ok",
               content: {
@@ -45,7 +45,7 @@ async function generateOpenapi() {
 
   doc.setIn(
     ["components", "schemas", "DummyResponse"],
-    createNode({
+    doc.createNode({
       type: "object",
       required: ["id"],
       properties: { id: { type: "string" } },
