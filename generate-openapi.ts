@@ -4,9 +4,7 @@ import { parseDocument, YAMLMap } from "yaml";
 const dir = "api";
 
 async function generateOpenapi() {
- const doc = parseDocument(
-    (await readFile(dir + "/openapi.yaml")).toString()
-  );
+  const doc = parseDocument((await readFile(dir + "/openapi.yaml")).toString());
 
   const paths = doc.get("paths") as YAMLMap<string, {}>;
   for (const filename of await readdir(dir)) {
@@ -42,8 +40,8 @@ async function generateOpenapi() {
       paths.set(path, value);
     }
   }
-    
+
   await writeFile(dir + "/openapi.yaml", doc.toString());
 }
-    
-  generateOpenapi().then(console.log.bind(console), console.error.bind(console));
+
+generateOpenapi().then(console.log.bind(console), console.error.bind(console));
