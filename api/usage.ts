@@ -9,9 +9,10 @@ class UsageResponse {
     this.usage = usage;
   }
 }
+export const responseShape = UsageResponse.name;
 
 export default authenticate(
-  async (request: VercelRequest, response: VercelResponse) => {
+  async function getUsageFromLauntel(request: VercelRequest, response: VercelResponse) => {
     const date = new Date();
 
     const session = await getSession();
