@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc && ts-node generateOpenapi.ts",
+    "build": "tsc && ts-node generate-openapi.ts",
     "test": "jest"
   },
   "dependencies": {
