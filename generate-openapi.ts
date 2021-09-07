@@ -1,6 +1,6 @@
 import { readFile, readdir, writeFile } from "fs/promises";
 import { resolve } from "path";
-import { parseDocument, YAMLMap } from "yaml";
+import { parseDocument, YAMLMap, YAML } from "yaml";
 
 const dir = "api";
 
@@ -25,20 +25,18 @@ async function generateOpenapi() {
         );
         get.set(
           "responses",
-          parseDocument(
-            JSON.stringify({
-              default: {
-                description: "Ok",
-                content: {
-                  "application/json": {
-                    schema: {
-                      $ref: "#/components/schemas/DummyResponse",
-                    },
+          YAML.createNode({
+            default: {
+              description: "Ok",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/DummyResponse",
                   },
                 },
               },
-            })
-          )
+            },
+          })
         );
       }
       paths.set(path, value);
@@ -47,13 +45,11 @@ async function generateOpenapi() {
 
   doc.setIn(
     ["components", "schemas", "DummyResponse"],
-    parseDocument(
-      JSON.stringify({
-        type: "object",
-        required: ["id"],
-        properties: { id: { type: "string" } },
-      })
-    )
+    YAML.createNode({
+      type: "object",
+      required: ["id"],
+      properties: { id: { type: "string" } },
+    })
   );
 
   console.log(doc.toJSON());
