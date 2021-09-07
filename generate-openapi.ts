@@ -17,11 +17,7 @@ async function generateOpenapi() {
     const name = filename.substr(0, filename.lastIndexOf("."));
     if (name != "openapi.yaml" && filename.endsWith(".ts")) {
       const path = `/api/${name}`;
-      try {
-        require("." + path); // register models
-      } catch (e) {
-        console.log(e);
-      }
+      const endpoint = require("." + path); // register models
       let value = paths.get(path) as YAMLMap<string, {}>;
       if (!value) {
         value = new YAMLMap();
@@ -39,7 +35,7 @@ async function generateOpenapi() {
               content: {
                 "application/json": {
                   schema: {
-                    $ref: "#/components/schemas/DummyResponse",
+                    $ref: "#/components/schemas/" + (endpoint.responseShape || "DummyResponse"),
                   },
                 },
               },
