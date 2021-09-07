@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from "@vercel/node";
+import { readFile } from "fs/promises";
 
 export default async (_request: VercelRequest, response: VercelResponse) =>
   response
