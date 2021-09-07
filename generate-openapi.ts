@@ -25,7 +25,8 @@ async function generateOpenapi() {
         value.set("get", get);
         get.set(
           "operationId",
-          endpoint.default.name || "get" + name[0].toUpperCase() + name.substring(1)
+          endpoint.default.name ||
+            "get" + name[0].toUpperCase() + name.substring(1)
         );
         get.set(
           "responses",
@@ -35,7 +36,9 @@ async function generateOpenapi() {
               content: {
                 "application/json": {
                   schema: {
-                    $ref: "#/components/schemas/" + (endpoint.responseShape || "DummyResponse"),
+                    $ref:
+                      "#/components/schemas/" +
+                      (endpoint.responseShape || "DummyResponse"),
                   },
                 },
               },
