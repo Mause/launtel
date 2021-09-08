@@ -13,7 +13,12 @@ class UpAttributes {
   @IsNotEmptyObject()
   amount: Amount;
 
-  constructor(description:string,message:string,createdAt:string,amount:Amount) {
+  constructor(
+    description: string,
+    message: string,
+    createdAt: string,
+    amount: Amount
+  ) {
     this.description = description;
     this.message = message;
     this.createdAt = createdAt;
@@ -30,7 +35,7 @@ class UpTransaction {
 
 class UpTransactionResponse {
   @IsArray()
-  public items: UpTransaction[]
+  public items: UpTransaction[];
   constructor(items: UpTransaction[]) {
     this.items = items;
   }
