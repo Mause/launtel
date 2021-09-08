@@ -56,11 +56,11 @@ async function generateOpenapi() {
   doc.setIn(["components", "schemas"], doc.createNode(schemas));
 
   for (const operation of (
-    doc.get("paths") as YAMLMap<string, YAMLMap<string, string>>
+    doc.get("paths") as YAMLMap<string, YAMLMap<string, YAMLMap<string, string>>>
   ).items) {
     if (operation.value) {
       for (const verb of operation.value.items) {
-        let ref = verb.value.getIn([
+        let ref = verb!.value!.getIn([
           "responses",
           "default",
           "content",
