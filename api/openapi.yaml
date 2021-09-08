@@ -14,41 +14,4 @@ components:
     AuthHeader:
       scheme: header
       type: http
-  schemas:
-    UpResponse:
-      type: array
-      items:
-        type: object
-        required: [id, attributes]
-        properties:
-          id:
-            type: string
-          attributes:
-            type: object
-            required: [description, message, createdAt, amount]
-            properties:
-              description:
-                type: string
-              message:
-                type: string
-              createdAt:
-                type: string
-              amount:
-                $ref: "#/components/schemas/Amount"
-    Amount:
-      type: object
-      required: [value]
-      properties:
-        value:
-          type: string
-paths:
-  /api/up:
-    get:
-      operationId: getUpTransactions
-      responses:
-        default:
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UpResponse"
+paths: {}

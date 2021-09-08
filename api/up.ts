@@ -1,15 +1,36 @@
 import Axios from "axios";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import authenticate from "../support/auth";
+import { IsNotEmpty } from "class-validator";
+
+class UpTransaction {
+  id!: string;
+  @IsNotEmpty()
+  attributes!: {
+    description: string;
+    message: string;
+    createdAt: string;
+    amount: Amount;
+  };
+}
+
+class UpTransactionResponse {
+  constructor(public items: UpTransaction[]) {}
+}
+export const responseShape = UpTransactionResponse.name;
 
 interface Amount {
   valueInBaseUnits: number;
 }
 
 interface Transaction {
+  id: string;
   attributes: {
-    amount: Amount;
     rawText: string | null;
+    description: string;
+    message: string;
+    createdAt: string;
+    amount: Amount;
   };
 }
 
@@ -43,10 +64,12 @@ export default authenticate(
 
     response.status(200);
     response.json(
-      transactions.filter(
-        (trans) =>
-          trans.attributes.amount.valueInBaseUnits > 0 &&
-          trans.attributes.rawText
+      new UpTransactionResponse(
+        transactions.filter(
+          (trans) =>
+            trans.attributes.amount.valueInBaseUnits > 0 &&
+            trans.attributes.rawText
+        )
       )
     );
   }

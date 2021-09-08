@@ -35,7 +35,9 @@ async function generateOpenapi() {
               content: {
                 "application/json": {
                   schema: {
-                    $ref: "#/components/schemas/" + (endpoint.responseShape || "DummyResponse"),
+                    $ref:
+                      "#/components/schemas/" +
+                      (endpoint.responseShape || "DummyResponse"),
                   },
                 },
               },
@@ -47,18 +49,13 @@ async function generateOpenapi() {
     }
   }
 
-  const schemas = doc.getIn(["components", "schemas"]) as YAMLMap<
-    string,
-    unknown
-  >;
-  schemas.items.push(
-    ...(
-      doc.createNode(
-        validationMetadatasToSchemas({
-          refPointerPrefix: "#/components/schemas/",
-        })
-      ) as YAMLMap<string, unknown>
-    ).items
+  doc.setIn(
+    ["components", "schemas"],
+    doc.createNode(
+      validationMetadatasToSchemas({
+        refPointerPrefix: "#/components/schemas/",
+      })
+    )
   );
 
   doc.setIn(
