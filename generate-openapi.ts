@@ -18,6 +18,9 @@ async function generateOpenapi() {
     if (name != "openapi.yaml" && filename.endsWith(".ts")) {
       const path = `/api/${name}`;
       const endpoint = require("." + path); // register models
+      if (!endpoint.responseShape) {
+        throw new Error(`Missing responseShape for ${path}`);
+      }
       let value = paths.get(path) as YAMLMap<string, {}>;
       if (!value) {
         value = new YAMLMap();
@@ -35,9 +38,7 @@ async function generateOpenapi() {
               content: {
                 "application/json": {
                   schema: {
-                    $ref:
-                      "#/components/schemas/" +
-                      (endpoint.responseShape || "DummyResponse"),
+                    $ref: "#/components/schemas/" + endpoint.responseShape,
                   },
                 },
               },
@@ -56,15 +57,6 @@ async function generateOpenapi() {
         refPointerPrefix: "#/components/schemas/",
       })
     )
-  );
-
-  doc.setIn(
-    ["components", "schemas", "DummyResponse"],
-    doc.createNode({
-      type: "object",
-      required: ["id"],
-      properties: { id: { type: "string" } },
-    })
   );
 
   console.log(JSON.stringify(doc, undefined, 2));
