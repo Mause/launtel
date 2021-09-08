@@ -1,21 +1,44 @@
 import Axios from "axios";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import authenticate from "../support/auth";
-import { IsNotEmpty } from "class-validator";
+import { IsArray, IsDate, IsNotEmptyObject, IsString } from "class-validator";
+
+class UpAttributes {
+  @IsString()
+  description: string;
+  @IsString()
+  message: string;
+  @IsDate()
+  createdAt: string;
+  @IsNotEmptyObject()
+  amount: Amount;
+
+  constructor(
+    description: string,
+    message: string,
+    createdAt: string,
+    amount: Amount
+  ) {
+    this.description = description;
+    this.message = message;
+    this.createdAt = createdAt;
+    this.amount = amount;
+  }
+}
 
 class UpTransaction {
+  @IsString()
   id!: string;
-  @IsNotEmpty()
-  attributes!: {
-    description: string;
-    message: string;
-    createdAt: string;
-    amount: Amount;
-  };
+  @IsNotEmptyObject()
+  attributes!: UpAttributes;
 }
 
 class UpTransactionResponse {
-  constructor(public items: UpTransaction[]) {}
+  @IsArray()
+  public items: UpTransaction[];
+  constructor(items: UpTransaction[]) {
+    this.items = items;
+  }
 }
 export const responseShape = UpTransactionResponse.name;
 
