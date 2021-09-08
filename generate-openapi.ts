@@ -54,13 +54,22 @@ async function generateOpenapi() {
     refPointerPrefix: "#/components/schemas/",
   });
   doc.setIn(["components", "schemas"], doc.createNode(schemas));
-  
-  for (const operation of (doc.get("paths") as YAMLMap<string,YAMLMap<string,string>>).items) {
+
+  for (const operation of (
+    doc.get("paths") as YAMLMap<string, YAMLMap<string, string>>
+  ).items) {
     if (operation.value) {
       for (const verb of operation.value.items) {
-        let ref = verb.value.getIn(['responses', 'default', 'content', 'application/json', 'schema', '$ref']) as string;
-        const parts = ref.split('/');
-        ref = parts[parts.length-1];
+        let ref = verb.value.getIn([
+          "responses",
+          "default",
+          "content",
+          "application/json",
+          "schema",
+          "$ref",
+        ]) as string;
+        const parts = ref.split("/");
+        ref = parts[parts.length - 1];
         if (!schemas[ref]) {
           throw new Error(`Couldn't find ${ref}`);
         }
