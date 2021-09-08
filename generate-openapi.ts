@@ -55,6 +55,8 @@ async function generateOpenapi() {
   });
   doc.setIn(["components", "schemas"], doc.createNode(schemas));
 
+  console.log(JSON.stringify(doc, undefined, 2));
+
   for (const operation of (
     doc.get("paths") as YAMLMap<
       string,
@@ -79,8 +81,6 @@ async function generateOpenapi() {
       }
     }
   }
-
-  console.log(JSON.stringify(doc, undefined, 2));
 
   await writeFile("openapi.yaml", doc.toString());
 }
