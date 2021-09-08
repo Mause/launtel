@@ -38,8 +38,7 @@ async function generateOpenapi() {
               content: {
                 "application/json": {
                   schema: {
-                    $ref:
-                      "#/components/schemas/" + endpoint.responseShape
+                    $ref: "#/components/schemas/" + endpoint.responseShape,
                   },
                 },
               },
