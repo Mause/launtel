@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc && npx vercel-openapi . -o openapi.yaml",
+    "build": "tsc && npx vercel-openapi . -o public/openapi.yaml",
     "test": "jest"
   },
   "dependencies": {
