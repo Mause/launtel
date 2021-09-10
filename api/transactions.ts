@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from "../support/axios";
 import { AxiosInstance } from "axios";
 import { Tabletojson } from "tabletojson";
 import { VercelRequest, VercelResponse } from "@vercel/node";
@@ -6,13 +6,7 @@ import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
 import axiosCookieJarSupport from "axios-cookiejar-support";
 import _ from "lodash";
-import {
-  LocalDate,
-  LocalDateTime,
-  LocalTime,
-  Month,
-  YearMonth,
-} from "@js-joda/core";
+import { Instant, LocalDateTime, YearMonth } from "@js-joda/core";
 import * as cheerio from "cheerio";
 import authenticate from "../support/auth";
 import config from "../support/config";
@@ -141,17 +135,7 @@ function bigintToString(val: BigInt): string | number {
 }
 
 function parseDate(input: string) {
-  const [day, month, year, time] = input.split(" ");
-  const [hour, minute] = time.split(":").map((i) => parseInt(i, 10));
-
-  return LocalDateTime.of(
-    LocalDate.of(
-      parseInt(year, 10),
-      Month.valueOf(month.toUpperCase()),
-      parseInt(day, 10)
-    ),
-    LocalTime.of(hour, minute)
-  );
+  return LocalDateTime.ofInstant(Instant.ofEpochMilli(Date.parse(input)));
 }
 
 function money(obj: string): bigint | undefined {

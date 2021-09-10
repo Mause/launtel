@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should return the expected response 1`] = `
+Object {
+  "numTransactions": 1,
+  "perMonth": Object {
+    "2021-01": Object {
+      "amount": 1.99,
+      "discounted": 0,
+    },
+  },
+  "transactions": Array [
+    Object {
+      "amount": -1.99,
+      "balance": 20,
+      "date": "2021-01-01T11:00",
+      "description": "Debit",
+      "isCCCharge": false,
+    },
+  ],
+}
+`;
