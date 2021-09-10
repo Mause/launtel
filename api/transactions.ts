@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from "../support/axios";
 import { AxiosInstance } from "axios";
 import { Tabletojson } from "tabletojson";
 import { VercelRequest, VercelResponse } from "@vercel/node";
