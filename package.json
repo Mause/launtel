@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc && npx vercel-openapi . -o openapi.yaml",
+    "build": "tsc && npx vercel-openapi . -o public/openapi.yaml",
     "test": "jest"
   },
   "dependencies": {
@@ -31,7 +31,7 @@
     "@types/test-listen": "^1.1.0",
     "@types/tough-cookie": "^4.0.1",
     "dotenv": "^10.0.0",
-    "jest": "^27.1.0",
+    "jest": "^27.1.1",
     "moxios": "^0.4.0",
     "test-listen": "^1.1.0",
     "ts-jest": "^27",
