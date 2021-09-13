@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc && npx vercel-openapi . -o public/openapi.yaml",
+    "build": "tsc && yarn generateOpenapi",
+    "generateOpenapi": "vercel-openapi generate . -o public/openapi.yaml",
     "test": "jest"
   },
   "dependencies": {
@@ -27,7 +28,7 @@
     "@types/jsonwebtoken": "^8.5.5",
     "@types/lodash": "^4.14.172",
     "@types/moxios": "^0.4.12",
-    "@types/node": "^15.14.9",
+    "@types/node": "^16",
     "@types/test-listen": "^1.1.0",
     "@types/tough-cookie": "^4.0.1",
     "dotenv": "^10.0.0",
@@ -35,6 +36,7 @@
     "moxios": "^0.4.0",
     "test-listen": "^1.1.0",
     "ts-jest": "^27",
-    "vercel-node-server": "^2.2.1"
+    "vercel-node-server": "^2.2.1",
+    "vercel-openapi": "^0.0.12"
   }
 }
