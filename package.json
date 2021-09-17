@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsc && yarn generateOpenapi",
-    "generateOpenapi": "vercel-openapi generate . -o public/openapi.yaml",
+    "generateOpenapi": "vercel-openapi generate . -o public/openapi.yaml --envVar JWT_SECRET=secret",
     "test": "jest"
   },
   "dependencies": {
