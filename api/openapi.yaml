@@ -12,6 +12,7 @@ servers:
 components:
   securitySchemes:
     AuthHeader:
-      scheme: header
       type: http
+      scheme: bearer
+      bearerFormat: JWT
 paths: {}
