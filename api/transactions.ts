@@ -10,7 +10,8 @@ import { Instant, LocalDateTime, YearMonth } from "@js-joda/core";
 import * as cheerio from "cheerio";
 import authenticate from "../support/auth";
 import config from "../support/config";
-import { IsNotEmpty, IsNotEmptyObject, IsObject } from "class-validator";
+import { IsNotEmpty } from "class-validator";
+import { log } from "../support/log";
 
 const ZERO = BigInt(0);
 
@@ -31,6 +32,7 @@ export async function getCookie() {
   });
 
   if (res.config.url?.includes("login")) {
+    log.error({url: res.config.url}, 'Login failed');
     throw new Error("login failed");
   }
 
