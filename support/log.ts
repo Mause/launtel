@@ -1,7 +1,7 @@
 import { LogtailStream } from "@logtail/bunyan";
 import { Logtail } from "@logtail/node";
 import bunyan from "bunyan";
-import config from './config';
+import config from "./config";
 
 const streams: bunyan.Stream[] = [{ stream: process.stdout }];
 

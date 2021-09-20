@@ -32,7 +32,7 @@ export async function getCookie() {
   });
 
   if (res.config.url?.includes("login")) {
-    log.error({url: res.config.url}, 'Login failed');
+    log.error({ url: res.config.url }, "Login failed");
     throw new Error("login failed");
   }
 
