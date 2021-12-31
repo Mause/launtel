@@ -89,10 +89,12 @@ async function getTransactions(session: AxiosInstance, page: number) {
   const transactions: LauntelTransaction[] = Tabletojson.convert(data)[0].map(
     (row: Record<string, string>) => new LauntelTransaction(row)
   );
+  /*
   let html = cheerio.load(data);
   if (html('.page-link:contains("Next")').length) {
     transactions.push(...(await getTransactions(session, page + 1)));
   }
+  */
 
   return transactions;
 }
