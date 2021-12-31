@@ -4,7 +4,7 @@ import { Tabletojson } from "tabletojson";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
-import axiosCookieJarSupport from "axios-cookiejar-support";
+import { wrapper as axiosCookieJarSupport } from "axios-cookiejar-support";
 import _ from "lodash";
 import { Instant, LocalDateTime, YearMonth } from "@js-joda/core";
 import * as cheerio from "cheerio";
@@ -18,7 +18,6 @@ const ZERO = BigInt(0);
 export async function getCookie() {
   const session = Axios.create({
     baseURL: "https://residential.launtel.net.au",
-    withCredentials: true,
   });
   axiosCookieJarSupport(session);
   session.defaults.jar = new CookieJar();
