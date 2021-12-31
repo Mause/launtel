@@ -97,9 +97,12 @@ async function getTransactions(session: AxiosInstance, page: number) {
 }
 export default authenticate(
   async (request: VercelRequest, response: VercelResponse) => {
+    log.info("Getting cookie");
     const session = await getCookie();
+    log.info("Got cookie");
 
     const transactions = await getTransactions(session, 1);
+    log.info("Got transactions: ", transactions.length);
 
     const discount = new Discount(BigInt(2500));
 
