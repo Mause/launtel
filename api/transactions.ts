@@ -83,6 +83,7 @@ class LauntelTransactionResponse {
 export const responseShape = LauntelTransactionResponse.name;
 
 async function getTransactions(session: AxiosInstance, page: number) {
+  log.info("On page", page);
   let data = (await session.get("/transactions", { params: { p: page } })).data;
 
   const transactions: LauntelTransaction[] = Tabletojson.convert(data)[0].map(
