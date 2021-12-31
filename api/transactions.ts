@@ -16,11 +16,13 @@ import { log } from "../support/log";
 const ZERO = BigInt(0);
 
 export async function getCookie() {
-  const session = Axios.create({
-    baseURL: "https://residential.launtel.net.au",
-  });
-  axiosCookieJarSupport(session);
-  session.defaults.jar = new CookieJar();
+  const session = axiosCookieJarSupport(
+    Axios.create({
+      baseURL: "https://residential.launtel.net.au",
+      validateStatus: (status) => true,
+      jar: new CookieJar(),
+    })
+  );
 
   const form_data = new URLSearchParams();
   form_data.append("username", config.LAUNTEL_EMAIL);
