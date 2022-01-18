@@ -4,7 +4,7 @@ import { Tabletojson } from "tabletojson";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { CookieJar } from "tough-cookie";
 import { URLSearchParams } from "url";
-import axiosCookieJarSupport from "axios-cookiejar-support";
+import { wrapper as axiosCookieJarSupport } from "axios-cookiejar-support";
 import _ from "lodash";
 import { Instant, LocalDateTime, YearMonth } from "@js-joda/core";
 import * as cheerio from "cheerio";
@@ -16,12 +16,13 @@ import { log } from "../support/log";
 const ZERO = BigInt(0);
 
 export async function getCookie() {
-  const session = Axios.create({
-    baseURL: "https://residential.launtel.net.au",
-    withCredentials: true,
-  });
-  axiosCookieJarSupport(session);
-  session.defaults.jar = new CookieJar();
+  const session = axiosCookieJarSupport(
+    Axios.create({
+      baseURL: "https://residential.launtel.net.au",
+      validateStatus: (status) => true,
+      jar: new CookieJar(),
+    })
+  );
 
   const form_data = new URLSearchParams();
   form_data.append("username", config.LAUNTEL_EMAIL);
