@@ -11,7 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@js-joda/core": "^5.0.0",
+    "@js-joda/core": "^5.1.0",
     "@logtail/bunyan": "^0.1.10",
     "@logtail/node": "^0.1.10",
     "@types/bunyan": "^1.8.7",
