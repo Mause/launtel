@@ -84,23 +84,29 @@ class LauntelTransactionResponse {
 export const responseShape = LauntelTransactionResponse.name;
 
 async function getTransactions(session: AxiosInstance, page: number) {
+  log.info("On page", page);
   let data = (await session.get("/transactions", { params: { p: page } })).data;
 
   const transactions: LauntelTransaction[] = Tabletojson.convert(data)[0].map(
     (row: Record<string, string>) => new LauntelTransaction(row)
   );
+  /*
   let html = cheerio.load(data);
   if (html('.page-link:contains("Next")').length) {
     transactions.push(...(await getTransactions(session, page + 1)));
   }
+  */
 
   return transactions;
 }
 export default authenticate(
   async (request: VercelRequest, response: VercelResponse) => {
+    log.info("Getting cookie");
     const session = await getCookie();
+    log.info("Got cookie");
 
     const transactions = await getTransactions(session, 1);
+    log.info("Got transactions: ", transactions.length);
 
     const discount = new Discount(BigInt(2500));
 
