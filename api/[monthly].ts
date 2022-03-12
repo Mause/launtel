@@ -35,7 +35,7 @@ export default async (request: VercelRequest, res: VercelResponse) => {
 
   const session = await getCookie();
 
-  let axiosRes: AxiosResponse<any, any>;
+  let axiosRes: AxiosResponse<string>;
   try {
     log.info("Getting invoice");
     axiosRes = await session.get(
