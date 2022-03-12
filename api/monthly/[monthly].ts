@@ -1,9 +1,9 @@
-import { getCookie } from "./transactions";
+import { getCookie } from "../transactions";
 import AxiosStatic, { AxiosResponse } from "axios";
 import { Tabletojson } from "tabletojson";
 import { IsNumber } from "class-validator";
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { log } from "../support/log";
+import { log } from "../../support/log";
 import { toFinite, round, last } from "lodash";
 
 class Shape {
