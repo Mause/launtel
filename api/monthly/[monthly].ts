@@ -5,6 +5,7 @@ import { IsNumber } from "class-validator";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { log } from "../../support/log";
 import { toFinite, round, last } from "lodash";
+import wrap from "../../support/auth";
 
 class Shape {
   @IsNumber()
@@ -25,12 +26,12 @@ const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 const NUMBER_OF_PEOPLE = 4;
 export const responseShape = Shape.name;
 
-export default async (request: VercelRequest, res: VercelResponse) => {
+export default wrap(async (request: VercelRequest, res: VercelResponse) => {
   const monthly = request.query.monthly;
   if (
     !(monthly && typeof monthly == "string" && /^\d{4}-\d{2}$/.exec(monthly))
   ) {
-    return res.json({ error: "bad month" });
+    return res.json({ error: "bad month format, try something like 2020-01" });
   }
 
   const session = await getCookie();
@@ -95,7 +96,7 @@ export default async (request: VercelRequest, res: VercelResponse) => {
     dailyCostPerPerson: round(total / NUMBER_OF_PEOPLE / daysInMonth, 2),
     issueDate: parseDate(issueDate),
   });
-};
+});
 
 function daysBetween(end: Date, st: Date): number {
   return (end.getTime() - st.getTime()) / MILLISECONDS_IN_DAY;
