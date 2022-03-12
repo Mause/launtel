@@ -1,18 +1,52 @@
 import { getCookie } from "../transactions";
 import AxiosStatic, { AxiosResponse } from "axios";
 import { Tabletojson } from "tabletojson";
-import { IsNumber } from "class-validator";
+import { IsDate, IsNumber, IsString } from "class-validator";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 import { log } from "../../support/log";
 import { toFinite, round, last } from "lodash";
 import wrap from "../../support/auth";
 
-class Shape {
+class MonthlyResponse {
   @IsNumber()
-  amount: number;
+  total: number;
+  @IsNumber()
+  totalPerPerson: number;
+  @IsString()
+  invoiceNumber: string;
+  @IsDate()
+  startDate: Date;
+  @IsDate()
+  endDate: Date;
+  @IsNumber()
+  daysInMonth: number;
+  @IsNumber()
+  dailyCost: number;
+  @IsNumber()
+  dailyCostPerPerson: number;
+  @IsDate()
+  issueDate: Date;
 
-  constructor(amount: number) {
-    this.amount = amount;
+  constructor(
+    total: number,
+    totalPerPerson: number,
+    invoiceNumber: string,
+    startDate: Date,
+    endDate: Date,
+    daysInMonth: number,
+    dailyCost: number,
+    dailyCostPerPerson: number,
+    issueDate: Date
+  ) {
+    this.total = total;
+    this.totalPerPerson = totalPerPerson;
+    this.invoiceNumber = invoiceNumber;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.daysInMonth = daysInMonth;
+    this.dailyCost = dailyCost;
+    this.dailyCostPerPerson = dailyCostPerPerson;
+    this.issueDate = issueDate;
   }
 }
 
@@ -24,7 +58,7 @@ interface Row {
 }
 const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 const NUMBER_OF_PEOPLE = 4;
-export const responseShape = Shape.name;
+export const responseShape = MonthlyResponse.name;
 
 export default wrap(async (request: VercelRequest, res: VercelResponse) => {
   const monthly = request.query.monthly;
@@ -85,17 +119,19 @@ export default wrap(async (request: VercelRequest, res: VercelResponse) => {
   const end = parseDate(endDate);
   const daysInMonth = daysBetween(end, start);
 
-  res.json({
-    total,
-    totalPerPerson: round(total / NUMBER_OF_PEOPLE, 2),
-    invoiceNumber,
-    startDate: start,
-    endDate: end,
-    daysInMonth,
-    dailyCost: round(total / daysInMonth, 2),
-    dailyCostPerPerson: round(total / NUMBER_OF_PEOPLE / daysInMonth, 2),
-    issueDate: parseDate(issueDate),
-  });
+  res.json(
+    new MonthlyResponse(
+      total,
+      round(total / NUMBER_OF_PEOPLE, 2),
+      invoiceNumber!,
+      start,
+      end,
+      daysInMonth,
+      round(total / daysInMonth, 2),
+      round(total / NUMBER_OF_PEOPLE / daysInMonth, 2),
+      parseDate(issueDate)
+    )
+  );
 });
 
 function daysBetween(end: Date, st: Date): number {
