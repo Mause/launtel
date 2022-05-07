@@ -10,7 +10,8 @@ import { Instant, LocalDateTime, YearMonth } from "@js-joda/core";
 import * as cheerio from "cheerio";
 import authenticate from "../support/auth";
 import config from "../support/config";
-import { IsNotEmpty } from "class-validator";
+import { IsString, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
 import { log } from "../support/log";
 
 const ZERO = BigInt(0);
@@ -73,10 +74,19 @@ class Discount {
   }
 }
 
+class PerMonth {
+  @IsString()
+  discounted: string;
+  constructor(discounted: string) {
+    this.discounted = discounted;
+  }
+}
+
 class LauntelTransactionResponse {
-  @IsNotEmpty()
-  public perMonth: Record<string, { discounted: string }>;
-  constructor(perMonth: Record<string, { discounted: string }>) {
+  @Type(() => PerMonth)
+  @ValidateNested({ each: true })
+  public perMonth: Map<string, PerMonth>;
+  constructor(perMonth: Map<string, PerMonth>) {
     this.perMonth = perMonth;
   }
 }
