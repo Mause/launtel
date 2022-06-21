@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { createServer } from "vercel-node-server";
 import listen from "test-listen";
 import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
