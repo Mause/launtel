@@ -16,7 +16,7 @@
     "@logtail/node": "^0.1.10",
     "@types/bunyan": "^1.8.8",
     "@vercel/node": "^2.0.0",
-    "axios": "^0.22.0",
+    "axios": "^1.1.0",
     "axios-cookiejar-support": "^1.0.1",
     "bunyan": "^1.8.15",
     "class-validator": "^0.13.2",
