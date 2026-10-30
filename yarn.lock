@@ -527,10 +527,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@js-joda/core@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@js-joda/core/-/core-5.2.0.tgz#fcebb14cffbf25adaaeec20d4579530e896ecd4a"
-  integrity sha512-0OriPYIaMLB3XiLQMe0BXKVIqeriTn3H7JMOzTsHEtt7Zqq+TetCu97KnAhU3ckiQZKBxfZshft+H1OC4D1lXw==
+"@js-joda/core@^6.0.0":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@js-joda/core/-/core-6.3.1.tgz#9eaf045be6ffb8d5c7da92f6d438b482493914f8"
+  integrity sha512-HRy+f6+bnhUGzf+yW1rJ5ME94/XrTGyEGhhnDPFj/2wkKa+5UecQYQPUa1WMWuIZ3aFsGKPzK7AHcmUeRJDz+Q==
 
 "@logtail/bunyan@^0.1.10":
   version "0.1.10"
